@@ -1,0 +1,320 @@
+{
+  "root": [
+    {
+      "name": "remove",
+      "doc": {"foo": "bar"},
+      "expected": null,
+      "patch": []
+    },
+    {
+      "name": "replace",
+      "doc": {"foo": "bar"},
+      "expected": true,
+      "patch": [true]
+    },
+    {
+      "name": "chain remove",
+      "doc": true,
+      "expected": null,
+      "patch": [0, ["foo"], []]
+    },
+    {
+      "name": "chain add",
+      "doc": true,
+      "expected": "foo",
+      "patch": [0, [], ["foo"]]
+    }
+  ],
+  "object": [
+    {
+      "name": "remove",
+      "doc": {"foo": "bar", "baz": "bang"},
+      "expected": {"foo": "bar"},
+      "patch": {
+        "baz": []
+      }
+    },
+    {
+      "name": "remove multiple",
+      "doc": {"foo": true, "bar": true, "baz": true, "bang": true},
+      "expected": {"foo": true, "baz": true},
+      "patch": {
+        "bar": [],
+        "bang": []
+      }
+    },
+    {
+      "name": "replace",
+      "doc": {"foo": "bar", "baz": "bang"},
+      "expected": {"foo": "bar", "baz": true},
+      "patch": {
+        "baz": [true]
+      }
+    },
+    {
+      "name": "replace multiple",
+      "doc": {"foo": true, "bar": true, "baz": true, "bang": true},
+      "expected": {"foo": true, "bar": false, "baz": true, "bang": false},
+      "patch": {
+        "bar": [false],
+        "bang": [false]
+      }
+    },
+    {
+      "name": "copy",
+      "doc": {"foo": {"bar": true}},
+      "expected": {"foo": {"bar": true}, "baz": {"bar": true}},
+      "patch": {
+        "baz": [1, "foo"]
+      }
+    },
+    {
+      "name": "copy multiple",
+      "doc": {"foo": {"bar": true}},
+      "expected": {"foo": {"bar": true}, "baz": {"bar": true}, "bang": {"bar": true}},
+      "patch": {
+        "baz": [1, "foo"],
+        "bang": [1, "foo"]
+      }
+    },
+    {
+      "name": "move",
+      "doc": {"foo": {"bar": true}},
+      "expected": {"baz": {"bar": true}},
+      "patch": {
+        "baz": [2, "foo"]
+      }
+    },
+    {
+      "name": "move multiple",
+      "doc": {"foo": {"bar": true}, "bar": {"foo": true}},
+      "expected": {"foo": {"foo": true}, "bar": {"bar": true}},
+      "patch": {
+        "foo": [2, "bar"],
+        "bar": [2, "foo"]
+      }
+    }
+  ],
+  "array": [
+    {
+      "name": "remove",
+      "doc": [0,1,2,3],
+      "expected": [1,2,3],
+      "patch": {
+        "0": []
+      }
+    },
+    {
+      "name": "remove multiple",
+      "doc": [0,1,2,3],
+      "expected": [1,3],
+      "patch": {
+        "0": [],
+        "2": []
+      }
+    },
+    {
+      "name": "replace",
+      "doc": [0,1,2,3],
+      "expected": [0,true,2,3],
+      "patch": {
+        "1": [true]
+      }
+    },
+    {
+      "name": "replace multiple",
+      "doc": [0,1,2,3],
+      "expected": [0,true,2,true],
+      "patch": {
+        "1": [true],
+        "3": [true]
+      }
+    },
+    {
+      "name": "copy",
+      "doc": [0,1],
+      "expected": [0,1,0],
+      "patch": {
+        "2": [1, 0]
+      }
+    },
+    {
+      "name": "copy multiple",
+      "doc": [0,1,2,3],
+      "expected": [3,0,3,1,3,2,3],
+      "patch": {
+        "0": [1, 3],
+        "1": [1, 3],
+        "2": [1, 3]
+      }
+    },
+    {
+      "name": "move",
+      "doc": [0,1,2],
+      "expected": [1,0,2],
+      "patch": {
+        "1": [2, 0]
+      }
+    },
+    {
+      "name": "move middle",
+      "doc": [0,1,2,3,4],
+      "expected": [0,3,1,2,4],
+      "patch": {
+        "1": [2, 3]
+      }
+    },
+    {
+      "name": "move multiple",
+      "doc": [0,1,2,3],
+      "expected": [3,1,2,0],
+      "patch": {
+        "0": [2, 3],
+        "3": [2, 0]
+      }
+    },
+    {
+      "name": "splice remove",
+      "doc": [0,1,2,3],
+      "expected": [0,3],
+      "patch": {
+        "1": [3, 2]
+      }
+    },
+    {
+      "name": "splice replace",
+      "doc": [0,1,2,3],
+      "expected": [0,"foo","bar",3],
+      "patch": {
+        "1": [3, 2, "foo", "bar"]
+      }
+    },
+    {
+      "name": "splice replace multiple",
+      "doc": [0,1,2,3,4],
+      "expected": [0,"foo","bar",4],
+      "patch": {
+        "1": [3, 2, "foo", "bar"],
+        "2": [3, 1]
+      }
+    },
+    {
+      "name": "slice",
+      "doc": [0,1,2,3],
+      "expected": [1,2],
+      "patch": {
+        "1": [4, 3]
+      }
+    }
+  ],
+  "string": [
+    {
+      "name": "remove",
+      "doc": "hello",
+      "expected": "hell",
+      "patch": {
+        "4": []
+      }
+    },
+    {
+      "name": "remove multiple",
+      "doc": "hello",
+      "expected": "hll",
+      "patch": {
+        "1": [],
+        "4": []
+      }
+    },
+    {
+      "name": "replace",
+      "doc": "hello",
+      "expected": "h3llo",
+      "patch": {
+        "1": ["3"]
+      }
+    },
+    {
+      "name": "replace multiple",
+      "doc": "hello",
+      "expected": "h3ll0",
+      "patch": {
+        "1": ["3"],
+        "4": ["0"]
+      }
+    },
+    {
+      "name": "copy",
+      "doc": "hello",
+      "expected": "heollo",
+      "patch": {
+        "2": [1, 4]
+      }
+    },
+    {
+      "name": "copy multiple",
+      "doc": "hello",
+      "expected": "heollho",
+      "patch": {
+        "2": [1, 4],
+        "4": [1, 0]
+      }
+    },
+    {
+      "name": "move",
+      "doc": "foo",
+      "expected": "ofo",
+      "patch": {
+        "1": [2, 0]
+      }
+    },
+    {
+      "name": "move middle",
+      "doc": "01234",
+      "expected": "03124",
+      "patch": {
+        "1": [2, 3]
+      }
+    },
+    {
+      "name": "move multiple",
+      "doc": "fool",
+      "expected": "loof",
+      "patch": {
+        "0": [2, 3],
+        "3": [2, 0]
+      }
+    },
+    {
+      "name": "splice remove",
+      "doc": "fool",
+      "expected": "fol",
+      "patch": {
+        "2": [3, 1]
+      }
+    },
+    {
+      "name": "splice insert",
+      "doc": "fool",
+      "expected": "fo8ol",
+      "patch": {
+        "2": [3, 0, "8"]
+      }
+    },
+    {
+      "name": "splice replace",
+      "doc": "fool",
+      "expected": "f8l",
+      "patch": {
+        "1": [3, 2, "8"]
+      }
+    },
+    {
+      "name": "slice",
+      "doc": "fool",
+      "expected": "oo",
+      "patch": {
+        "1": [4, 3]
+      }
+    }
+  ]
+}
